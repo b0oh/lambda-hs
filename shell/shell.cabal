@@ -1,0 +1,28 @@
+cabal-version: 3.14
+name: shell
+version: 0.1.0.0
+license: ISC
+author: b0oh
+maintainer: d@b0oh.me
+category: Language
+build-type: Simple
+
+library
+  ghc-options: -Wall
+  build-depends:
+    base ^>=4.21.0.0,
+    directory,
+    haskell-src-meta,
+    lambda,
+    template-haskell,
+
+  default-extensions:
+    TemplateHaskell
+
+  default-language: GHC2024
+  -- cabal-gild: discover src
+  exposed-modules:
+    Printer
+    Shell
+
+  hs-source-dirs: src

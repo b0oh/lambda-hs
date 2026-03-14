@@ -1,0 +1,35 @@
+cabal-version: 3.14
+name: lambda
+version: 0.1.0.0
+license: ISC
+author: b0oh
+maintainer: d@b0oh.me
+category: Language
+build-type: Simple
+
+common warnings
+  ghc-options: -Wall
+
+library
+  import: warnings
+  build-depends:
+    base ^>=4.21.0.0,
+    containers,
+
+  default-language: GHC2024
+  -- cabal-gild: discover src
+  exposed-modules:
+    Codec
+    Lambda
+
+  hs-source-dirs: src
+
+test-suite lambda-test
+  import: warnings
+  default-language: GHC2024
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test
+  main-is: Main.hs
+  build-depends:
+    base ^>=4.21.0.0,
+    lambda,
