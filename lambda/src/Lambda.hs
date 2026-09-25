@@ -22,11 +22,34 @@ data Term
 
 substitute :: Symbol -> Term -> Term -> Term
 substitute name newTerm term =
-  undefined
+  case term of
+    Call callee arg ->
+      Call (substitute name newTerm callee) (substitute name newTerm arg)
+    Fun name' _body
+      | name' == name ->
+          term
+    Fun name' body ->
+      Fun name' (substitute name newTerm body)
+    Var name'
+      | name' == name ->
+          newTerm
+    _ ->
+      term
 
 reduceOnce :: Term -> Maybe Term
-reduceOnce =
-  undefined
+reduceOnce = \case
+  Call (Fun name body) arg ->
+    Just $ substitute name arg body
+  Call callee arg ->
+    case reduceOnce callee of
+      Just callee' ->
+        Just $ Call callee' arg
+      Nothing ->
+        Call callee <$> reduceOnce arg
+  Fun name body ->
+    Fun name <$> reduceOnce body
+  _ ->
+    Nothing
 
 reduceFull :: Term -> Term
 reduceFull term =
